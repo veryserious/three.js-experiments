@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My first three.js app</title>
+		<style>
+			body { margin: 0; }
+		</style>
+	</head>
+	<body>
+		<!-- Implementation of three.js tutorial https://threejs.org/manual/#en/fundamentals -->
+		<script type="module">
+			import * as THREE from './js/three.module.js';
+            function main() {
+                const canvas = document.querySelector('#c')
+                const renderer = new THREE.WebGLRenderer({canvas})
+
+                const fov = 75
+                const aspect = 2
+                const near = 0.1
+                const far = 5
+                const camera = new THREE.PerspectiveCamera(fov, aspect, near, far)
+
+                camera.position.z = 2
+
+                const scene = new THREE.Scene()
+
+                const boxWidth = 1
+                const boxHeight = 1
+                const boxDepth = 1
+                const geometry = new THREE.BoxGeometry(boxWidth, boxHeight, boxDepth)
+
+                const material = new THREE.MeshBasicMaterial({color: 0x44a8})
+
+                const cube = new THREE.Mesh(geometry, material)
+
+                scene.add(cube)
+
+                renderer.render(scene, camera)
+
+                function render(time) {
+                    time *= 0.001
+
+                    cube.rotation.x = time
+                    cube.rotation.y = time
+                    
+                    renderer.render(scene, camera)
+
+                    requestAnimationFrame(render)
+                }
+                requestAnimationFrame(render)
+            }
+
+            main()
+		</script>
+        <canvas id="c"></canvas>
+	</body>
+</html>
